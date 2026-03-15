@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LifeSync for Individuals — Personal Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --teal: #0D9488; --teal-mid: #14B8A6; --teal-light: #CCFBF1; --teal-dark: #0F766E;
+      --sky: #E0F2FE; --blue: #0EA5E9; --ink: #0F172A; --slate: #475569; --muted: #94A3B8;
+      --surface: #F8FAFC; --white: #FFFFFF; --border: #E2E8F0; --radius-md: 18px; --radius-lg: 28px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--white); color: var(--ink); overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; display: flex; align-items: center; justify-content: space-between; padding: 1rem 5%; background: rgba(255,255,255,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(13,148,136,0.1); }
+    .logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.5rem; color: var(--teal-dark); letter-spacing: -0.5px; text-decoration: none; }
+    .logo span { color: var(--blue); }
+    .nav-back { display: inline-flex; align-items: center; gap: .5rem; color: var(--slate); text-decoration: none; font-size: .88rem; font-weight: 600; transition: color .2s; }
+    .nav-back:hover { color: var(--teal); }
+    .nav-btn { background: var(--teal); color: #fff; border: none; padding: .6rem 1.5rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .88rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .nav-btn:hover { background: var(--teal-dark); }
+
+    .branch-hero { min-height: 70vh; background: linear-gradient(145deg, #F0FDFA 0%, #ECFDF5 60%, #F8FAFC 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 9rem 5% 5rem; position: relative; overflow: hidden; }
+    .branch-hero::before { content: ''; position: absolute; top: -150px; right: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(20,184,166,.2) 0%, transparent 65%); pointer-events: none; }
+    .branch-pill { display: inline-flex; align-items: center; gap: .5rem; background: rgba(13,148,136,.1); border: 1.5px solid rgba(13,148,136,.2); color: var(--teal-dark); border-radius: 999px; padding: .38rem 1.1rem; font-size: .78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.6rem; animation: rise .7s ease both; }
+    .branch-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; color: var(--ink); max-width: 700px; animation: rise .7s .1s ease both; }
+    .branch-hero h1 em { font-style: italic; color: var(--teal); }
+    .branch-hero p { font-size: clamp(.95rem, 1.8vw, 1.1rem); color: var(--slate); max-width: 500px; line-height: 1.7; margin: 1.4rem auto 2.4rem; animation: rise .7s .2s ease both; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: rise .7s .3s ease both; }
+    .btn-primary { background: var(--teal); color: #fff; border: none; padding: .85rem 2.2rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; box-shadow: 0 6px 24px rgba(13,148,136,.35); transition: background .2s, transform .15s; }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--teal-dark); border: 2px solid var(--teal); padding: .85rem 2.2rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s, color .2s; }
+    .btn-ghost:hover { background: var(--teal); color: #fff; }
+
+    section { padding: 5rem 5%; }
+    .section-eyebrow { font-size: .72rem; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: .6rem; text-align: center; }
+    .section-title { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -1px; color: var(--ink); text-align: center; margin-bottom: .75rem; }
+    .section-desc { color: var(--slate); font-size: .98rem; line-height: 1.65; max-width: 480px; margin: 0 auto 3rem; text-align: center; }
+
+    .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+    .how-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2rem 1.6rem; text-align: center; transition: transform .25s, box-shadow .25s; }
+    .how-card:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(13,148,136,.1); }
+    .how-num { width: 40px; height: 40px; border-radius: 50%; background: var(--teal-light); color: var(--teal-dark); font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+    .how-card h3 { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: .5rem; }
+    .how-card p { font-size: .85rem; color: var(--slate); line-height: 1.55; }
+
+    .features-alt { background: linear-gradient(160deg, #F0FDFA 0%, #E0F2FE 100%); }
+    .feat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; max-width: 1000px; margin: 0 auto; }
+    .feat-row { display: flex; gap: 1.2rem; align-items: flex-start; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; transition: transform .2s, box-shadow .2s; }
+    .feat-row:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(13,148,136,.1); }
+    .feat-row-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .feat-row div h4 { font-size: .95rem; font-weight: 700; color: var(--ink); margin-bottom: .3rem; }
+    .feat-row div p { font-size: .83rem; color: var(--slate); line-height: 1.55; }
+
+    .testimonial-strip { background: var(--teal-dark); padding: 4rem 5%; text-align: center; }
+    .testimonial-strip blockquote { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(1.2rem, 2.5vw, 1.7rem); color: #fff; max-width: 640px; margin: 0 auto 1.2rem; line-height: 1.5; }
+    .testimonial-strip cite { font-size: .85rem; color: var(--teal-light); font-style: normal; font-weight: 600; }
+
+    .pricing-simple { background: var(--white); }
+    .price-box { max-width: 400px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.4rem 2rem; text-align: center; }
+    .price-box .plan { font-size: .72rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: .8rem; }
+    .price-box .big { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 700; color: var(--ink); letter-spacing: -2px; }
+    .price-box .big sup { font-size: 1.4rem; vertical-align: super; }
+    .price-box .big sub { font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--muted); }
+    .price-box .or { font-size: .85rem; color: var(--muted); margin: .5rem 0 1.2rem; }
+    .price-box .yearly { font-size: 1.1rem; font-weight: 700; color: var(--teal-dark); margin-bottom: 1.6rem; }
+    .price-box ul { list-style: none; text-align: left; display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1.8rem; }
+    .price-box ul li { font-size: .88rem; color: var(--slate); display: flex; align-items: center; gap: .55rem; }
+    .price-box ul li i { color: var(--teal); font-size: .7rem; }
+    .btn-full { display: block; width: 100%; background: var(--teal); color: #fff; border: none; padding: .85rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .btn-full:hover { background: var(--teal-dark); }
+
+    footer { background: var(--ink); color: rgba(255,255,255,.55); padding: 2rem 5%; text-align: center; }
+    footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.3rem; color: #CCFBF1; text-decoration: none; display: inline-block; margin-bottom: .6rem; }
+    footer .footer-logo span { color: #5EEAD4; }
+    footer p { font-size: .82rem; margin-bottom: .4rem; }
+    footer a { color: #CCFBF1; text-decoration: none; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { .hero-btns { flex-direction: column; align-items: center; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="lifesync.html" class="logo">Life<span>Sync</span></a>
+  <a href="lifesync.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+  <button class="nav-btn">Get Started — $7/mo</button>
+</nav>
+
+<section class="branch-hero">
+  <div class="branch-pill"><i class="fa-solid fa-user-astronaut"></i>&nbsp; For Individuals</div>
+  <h1>Your Life,<br><em>Intelligently</em> Managed</h1>
+  <p>LifeSync for Individuals is your always-on personal assistant — tracking your spending, health, schedule, and mindset so you don't have to.</p>
+  <div class="hero-btns">
+    <button class="btn-primary"><i class="fa-solid fa-rocket" style="margin-right:.45rem"></i>Start for $7/mo</button>
+    <button class="btn-ghost">See All Features</button>
+  </div>
+</section>
+
+<section>
+  <p class="section-eyebrow">How It Works</p>
+  <h2 class="section-title">Set It Once, Let It Run</h2>
+  <p class="section-desc">LifeSync runs quietly in the background, logging, tracking, and reminding — so you stay in control without the effort.</p>
+  <div class="how-grid">
+    <div class="how-card"><div class="how-num">1</div><h3>Connect Your Accounts</h3><p>Link your email, SMS, or bank to automatically capture purchases and expenses as they happen.</p></div>
+    <div class="how-card"><div class="how-num">2</div><h3>Set Your Goals</h3><p>Tell LifeSync your daily step target, health goals, and wake-up routine. It adapts to your lifestyle.</p></div>
+    <div class="how-card"><div class="how-num">3</div><h3>Start Every Day Right</h3><p>Wake up to a motivational quote, a summary of yesterday's spending, and your task list for the day.</p></div>
+    <div class="how-card"><div class="how-num">4</div><h3>Stay Accountable</h3><p>Smart alarms and nudges keep you on track — escalating until you confirm you're awake and moving.</p></div>
+  </div>
+</section>
+
+<section class="features-alt">
+  <p class="section-eyebrow">Features</p>
+  <h2 class="section-title">Everything Included</h2>
+  <p class="section-desc">One plan, all features — no tiers, no surprises.</p>
+  <div class="feat-list">
+    <div class="feat-row">
+      <div class="feat-row-icon bg-teal"><i class="fa-solid fa-camera-retro" style="color:var(--teal-dark)"></i></div>
+      <div><h4>Auto Purchase Logging</h4><p>Snap a receipt, forward a confirmation email, or let SMS parsing do the work. Every peso tracked.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon bg-sky"><i class="fa-solid fa-heart-pulse" style="color:var(--blue)"></i></div>
+      <div><h4>Step &amp; Health Tracking</h4><p>Syncs with your phone's pedometer and lets you set custom daily health goals.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon" style="background:#FEF3C7"><i class="fa-solid fa-book-open" style="color:#B45309"></i></div>
+      <div><h4>Daily Motivational Quotes</h4><p>Bible, Quran, stoic philosophy, or general life wisdom — pick your source and start every day inspired.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon" style="background:#FFE4E6"><i class="fa-solid fa-bell" style="color:#BE123C"></i></div>
+      <div><h4>Smart Alarms That Ring</h4><p>Persistent, escalating alarms that won't stop until you've confirmed you're up. No more snooze loops.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon bg-teal"><i class="fa-solid fa-chart-line" style="color:var(--teal-dark)"></i></div>
+      <div><h4>Spending Insights</h4><p>Weekly and monthly summaries of your spending patterns, with category breakdowns and trends.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon bg-sky"><i class="fa-solid fa-calendar-check" style="color:var(--blue)"></i></div>
+      <div><h4>Task &amp; Schedule Manager</h4><p>Add tasks, set reminders, and let LifeSync organize your day around your priorities.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonial-strip">
+  <blockquote>"I used to forget half my expenses and miss alarms constantly. LifeSync fixed both in a week."</blockquote>
+  <cite>— Maria S., Freelance Designer, Manila</cite>
+</section>
+
+<section class="pricing-simple">
+  <p class="section-eyebrow">Pricing</p>
+  <h2 class="section-title">One Simple Plan</h2>
+  <p class="section-desc">All features included. Cancel anytime.</p>
+  <div class="price-box">
+    <p class="plan">LifeSync Individual</p>
+    <div class="big"><sup>$</sup>7<sub>/mo</sub></div>
+    <p class="or">— or —</p>
+    <p class="yearly">$75 / year &nbsp;<span style="background:#FEF3C7;color:#92400E;font-size:.7rem;padding:.2rem .5rem;border-radius:999px;font-weight:800;letter-spacing:1px;text-transform:uppercase;">Save 11%</span></p>
+    <ul>
+      <li><i class="fa-solid fa-check"></i> Auto purchase &amp; receipt logging</li>
+      <li><i class="fa-solid fa-check"></i> Step &amp; health goal tracking</li>
+      <li><i class="fa-solid fa-check"></i> Daily motivational quotes</li>
+      <li><i class="fa-solid fa-check"></i> Smart alarms &amp; task scheduler</li>
+      <li><i class="fa-solid fa-check"></i> Weekly spending insights</li>
+      <li><i class="fa-solid fa-check"></i> 1 user account · Cancel anytime</li>
+    </ul>
+    <button class="btn-full">Get Started Now</button>
+  </div>
+</section>
+
+<footer>
+  <a href="lifesync.html" class="footer-logo">Life<span>Sync</span></a>
+  <p>© 2026 LifeSync. All rights reserved.</p>
+  <p><a href="mailto:hello@lifesync.app">hello@lifesync.app</a> &nbsp;·&nbsp; +63 917 000 0000</p>
+</footer>
+
+</body>
+</html>

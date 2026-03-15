@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LifeSync for Communities — Complaint Management & Governance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --teal: #0D9488; --teal-mid: #14B8A6; --teal-light: #CCFBF1; --teal-dark: #0F766E;
+      --sky: #E0F2FE; --sky-dark: #0369A1; --blue: #0EA5E9;
+      --ink: #0F172A; --slate: #475569; --muted: #94A3B8;
+      --surface: #F8FAFC; --white: #FFFFFF; --border: #E2E8F0; --radius-md: 18px; --radius-lg: 28px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--white); color: var(--ink); overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; display: flex; align-items: center; justify-content: space-between; padding: 1rem 5%; background: rgba(255,255,255,0.88); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(13,148,136,0.1); }
+    .logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.5rem; color: var(--teal-dark); letter-spacing: -0.5px; text-decoration: none; }
+    .logo span { color: var(--blue); }
+    .nav-back { display: inline-flex; align-items: center; gap: .5rem; color: var(--slate); text-decoration: none; font-size: .88rem; font-weight: 600; transition: color .2s; }
+    .nav-back:hover { color: var(--teal); }
+    .nav-btn { background: var(--sky-dark); color: #fff; border: none; padding: .6rem 1.5rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .88rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .nav-btn:hover { background: #075985; }
+
+    .branch-hero { min-height: 70vh; background: linear-gradient(145deg, #E0F2FE 0%, #F0FDFA 60%, #F8FAFC 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 9rem 5% 5rem; position: relative; overflow: hidden; }
+    .branch-hero::before { content: ''; position: absolute; top: -150px; right: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(14,165,233,.18) 0%, transparent 65%); pointer-events: none; }
+    .branch-pill { display: inline-flex; align-items: center; gap: .5rem; background: rgba(3,105,161,.1); border: 1.5px solid rgba(3,105,161,.2); color: var(--sky-dark); border-radius: 999px; padding: .38rem 1.1rem; font-size: .78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.6rem; animation: rise .7s ease both; }
+    .branch-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; color: var(--ink); max-width: 700px; animation: rise .7s .1s ease both; }
+    .branch-hero h1 em { font-style: italic; color: var(--sky-dark); }
+    .branch-hero p { font-size: clamp(.95rem, 1.8vw, 1.1rem); color: var(--slate); max-width: 520px; line-height: 1.7; margin: 1.4rem auto 2.4rem; animation: rise .7s .2s ease both; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: rise .7s .3s ease both; }
+    .btn-primary { background: var(--sky-dark); color: #fff; border: none; padding: .85rem 2.2rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; box-shadow: 0 6px 24px rgba(3,105,161,.3); transition: background .2s, transform .15s; }
+    .btn-primary:hover { background: #075985; transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--sky-dark); border: 2px solid var(--sky-dark); padding: .85rem 2.2rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s, color .2s; }
+    .btn-ghost:hover { background: var(--sky-dark); color: #fff; }
+
+    section { padding: 5rem 5%; }
+    .section-eyebrow { font-size: .72rem; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sky-dark); margin-bottom: .6rem; text-align: center; }
+    .section-title { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -1px; color: var(--ink); text-align: center; margin-bottom: .75rem; }
+    .section-desc { color: var(--slate); font-size: .98rem; line-height: 1.65; max-width: 480px; margin: 0 auto 3rem; text-align: center; }
+
+    .workflow { background: var(--surface); }
+    .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; max-width: 900px; margin: 0 auto; position: relative; }
+    .flow-step { padding: 2rem 1.5rem; text-align: center; position: relative; }
+    .flow-step:not(:last-child)::after { content: ''; position: absolute; top: 2.8rem; right: -1px; width: 2px; height: 40%; background: var(--border); }
+    .flow-num { width: 48px; height: 48px; border-radius: 50%; background: var(--sky); color: var(--sky-dark); font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; border: 2px solid var(--sky-dark); }
+    .flow-step h3 { font-size: .95rem; font-weight: 700; color: var(--ink); margin-bottom: .4rem; }
+    .flow-step p { font-size: .82rem; color: var(--slate); line-height: 1.5; }
+
+    .feat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; max-width: 1000px; margin: 0 auto; }
+    .feat-row { display: flex; gap: 1.2rem; align-items: flex-start; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; transition: transform .2s, box-shadow .2s; }
+    .feat-row:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(3,105,161,.08); }
+    .feat-row-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .feat-row div h4 { font-size: .95rem; font-weight: 700; color: var(--ink); margin-bottom: .3rem; }
+    .feat-row div p { font-size: .83rem; color: var(--slate); line-height: 1.55; }
+
+    .stat-strip { background: var(--sky-dark); padding: 4rem 5%; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; text-align: center; }
+    .stat-item .num { font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 700; color: #fff; letter-spacing: -1px; }
+    .stat-item .label { font-size: .85rem; color: rgba(255,255,255,.7); margin-top: .3rem; font-weight: 500; }
+
+    .pricing-simple { background: var(--white); }
+    .price-box { max-width: 420px; margin: 0 auto; background: var(--sky); border: 1.5px solid rgba(3,105,161,.2); border-radius: var(--radius-lg); padding: 2.4rem 2rem; text-align: center; }
+    .price-box .plan { font-size: .72rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--sky-dark); margin-bottom: .8rem; }
+    .price-box .big { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 700; color: var(--ink); letter-spacing: -2px; }
+    .price-box .big sup { font-size: 1.4rem; vertical-align: super; }
+    .price-box .big sub { font-size: 1rem; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--muted); }
+    .price-box .sub-note { font-size: .85rem; color: var(--slate); margin: .5rem 0 1.6rem; }
+    .price-box ul { list-style: none; text-align: left; display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1.8rem; }
+    .price-box ul li { font-size: .88rem; color: var(--slate); display: flex; align-items: center; gap: .55rem; }
+    .price-box ul li i { color: var(--sky-dark); font-size: .7rem; }
+    .btn-full { display: block; width: 100%; background: var(--sky-dark); color: #fff; border: none; padding: .85rem; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .btn-full:hover { background: #075985; }
+
+    footer { background: var(--ink); color: rgba(255,255,255,.55); padding: 2rem 5%; text-align: center; }
+    footer .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.3rem; color: #CCFBF1; text-decoration: none; display: inline-block; margin-bottom: .6rem; }
+    footer .footer-logo span { color: #5EEAD4; }
+    footer p { font-size: .82rem; margin-bottom: .4rem; }
+    footer a { color: #CCFBF1; text-decoration: none; }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { .hero-btns { flex-direction: column; align-items: center; } .flow-step::after { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="lifesync.html" class="logo">Life<span>Sync</span></a>
+  <a href="lifesync.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+  <button class="nav-btn">Get Started — $15/mo</button>
+</nav>
+
+<section class="branch-hero">
+  <div class="branch-pill"><i class="fa-solid fa-landmark"></i>&nbsp; For Communities</div>
+  <h1>Governance Made<br><em>Simple &amp; Digital</em></h1>
+  <p>LifeSync for Communities helps local government units modernize complaint management, communicate with residents, and report to DTI — all from one platform.</p>
+  <div class="hero-btns">
+    <button class="btn-primary"><i class="fa-solid fa-rocket" style="margin-right:.45rem"></i>Start for $15/mo</button>
+    <button class="btn-ghost">See How It Works</button>
+  </div>
+</section>
+
+<section class="workflow">
+  <p class="section-eyebrow">Complaint Workflow</p>
+  <h2 class="section-title">From Resident to Resolution</h2>
+  <p class="section-desc">A streamlined digital process that keeps residents informed every step of the way.</p>
+  <div class="flow-grid">
+    <div class="flow-step"><div class="flow-num">1</div><h3>Resident Files Complaint</h3><p>Submit via web form, mobile app, or in-person kiosk. Photo evidence supported.</p></div>
+    <div class="flow-step"><div class="flow-num">2</div><h3>Auto-Acknowledged</h3><p>Resident receives instant confirmation with a tracking number via SMS or email.</p></div>
+    <div class="flow-step"><div class="flow-num">3</div><h3>Assigned &amp; Reviewed</h3><p>Officials review the complaint and assign it to the correct department or officer.</p></div>
+    <div class="flow-step"><div class="flow-num">4</div><h3>DTI Report Generated</h3><p>Resolved cases are automatically compiled into DTI-ready reports for submission.</p></div>
+  </div>
+</section>
+
+<section>
+  <p class="section-eyebrow">Features</p>
+  <h2 class="section-title">Built for Local Government</h2>
+  <p class="section-desc">Every tool your community office needs to run smoothly and transparently.</p>
+  <div class="feat-list">
+    <div class="feat-row">
+      <div class="feat-row-icon" style="background:var(--sky)"><i class="fa-solid fa-file-circle-plus" style="color:var(--sky-dark)"></i></div>
+      <div><h4>Complaint Submission Portal</h4><p>Residents submit complaints online with category tagging, photo uploads, and location data.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon" style="background:var(--sky)"><i class="fa-solid fa-magnifying-glass" style="color:var(--sky-dark)"></i></div>
+      <div><h4>Real-Time Status Tracking</h4><p>Residents can check complaint status 24/7 using their unique tracking code. No need to visit the office.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon bg-teal"><i class="fa-solid fa-file-export" style="color:var(--teal-dark)"></i></div>
+      <div><h4>DTI Reporting Integration</h4><p>Auto-generate and export reports in DTI-compliant formats. Save hours of manual paperwork.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon" style="background:var(--sky)"><i class="fa-solid fa-bullhorn" style="color:var(--sky-dark)"></i></div>
+      <div><h4>Community Announcement Board</h4><p>Post advisories, schedules, and community news. Residents can subscribe to get notified.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon bg-teal"><i class="fa-solid fa-users-gear" style="color:var(--teal-dark)"></i></div>
+      <div><h4>Multi-Admin Management</h4><p>Up to 5 admin accounts with role-based access — assign who can view, respond, or close complaints.</p></div>
+    </div>
+    <div class="feat-row">
+      <div class="feat-row-icon" style="background:var(--sky)"><i class="fa-solid fa-chart-bar" style="color:var(--sky-dark)"></i></div>
+      <div><h4>Analytics Dashboard</h4><p>Track complaint volumes, resolution rates, and response times to identify recurring community issues.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="stat-strip">
+  <div class="stat-grid">
+    <div class="stat-item"><div class="num">85%</div><div class="label">Faster complaint resolution vs paper-based systems</div></div>
+    <div class="stat-item"><div class="num">5 min</div><div class="label">Average time to file and acknowledge a complaint</div></div>
+    <div class="stat-item"><div class="num">100%</div><div class="label">Digital audit trail for every complaint filed</div></div>
+  </div>
+</section>
+
+<section class="pricing-simple">
+  <p class="section-eyebrow">Pricing</p>
+  <h2 class="section-title">Flat Rate for Your Community</h2>
+  <p class="section-desc">One affordable price for your entire LGU. No per-resident fees.</p>
+  <div class="price-box">
+    <p class="plan">LifeSync Communities</p>
+    <div class="big"><sup>$</sup>15<sub>/mo</sub></div>
+    <p class="sub-note">One flat rate · Up to 5 admin accounts</p>
+    <ul>
+      <li><i class="fa-solid fa-check"></i> Resident complaint submission portal</li>
+      <li><i class="fa-solid fa-check"></i> Real-time complaint status tracking</li>
+      <li><i class="fa-solid fa-check"></i> DTI reporting &amp; export</li>
+      <li><i class="fa-solid fa-check"></i> Community announcement board</li>
+      <li><i class="fa-solid fa-check"></i> Analytics dashboard</li>
+      <li><i class="fa-solid fa-check"></i> Up to 5 admin accounts</li>
+    </ul>
+    <button class="btn-full">Get Started Now</button>
+  </div>
+</section>
+
+<footer>
+  <a href="lifesync.html" class="footer-logo">Life<span>Sync</span></a>
+  <p>© 2026 LifeSync. All rights reserved.</p>
+  <p><a href="mailto:hello@lifesync.app">hello@lifesync.app</a> &nbsp;·&nbsp; +63 917 000 0000</p>
+</footer>
+
+</body>
+</html>
